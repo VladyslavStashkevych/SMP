@@ -1,48 +1,57 @@
-def calculate(num1, num2, operation):
-    num1 = float(num1)
-    num2 = float(num2)
-    
-    if operation == "+":
-        return num1 + num2
-    elif operation == "-":
-        return num1 - num2
-    elif operation == "*":
-        return num1 * num2
-    elif operation == "/":
-        if num2 != 0:
-            return num1 / num2
+def calculate(num1: float, num2: float, operation) -> float:
+    try:
+        if operation == "+":
+            return num1 + num2
+        elif operation == "-":
+            return num1 - num2
+        elif operation == "*":
+            return num1 * num2
+        elif operation == "/":
+            if num2 != 0:
+                return num1 / num2
+            else:
+                raise ZeroDivisionError()
+        elif operation == "^":
+            return pow(num1, num2)
+        elif operation == "%":
+            return num1 % num2
         else:
-            print("You cannot divide by 0, try again")
-            return "error"
-    elif operation == "^":
-        return pow(num1, num2)
-    elif operation == "%":
-        return num1 % num2
-    else:
-        print("wrong operation, try again")
-        return "error"
+            raise ValueError()
+    except ValueError as err:
+        raise err
+    except ZeroDivisionError as err:
+        raise err
 
 
 def end_menu(result_history, number_of_zero, res):
-    choice = int(input("1. Do one more calculation \n"
-                       "2. Save the result \n"
-                       "3. See the history of results \n"
-                       "4. Change an accuracy (number of zeros after the decimal point) \n"
-                       "5. Exit \n"
-                       "  >> "))
+    choice = input("1. Do one more calculation \n"
+                   "2. Save the result \n"
+                   "3. See the history of results \n"
+                   "4. Change an accuracy (number of zeros after the decimal point) \n"
+                   "5. Exit \n"
+                   "  >> ")
 
-    if choice == 1:
+    if not choice.isnumeric():
+        print("Wrong choice, try again")
+        return end_menu(result_history, number_of_zero, res)
+
+    if choice == "1":
         return number_of_zero
-    elif choice == 2:
+    elif choice == "2":
         history.append(res)
-    elif choice == 3:
+    elif choice == "3":
         if isinstance(result_history, list):
             for num in result_history:
                 print(format(num, ".{0}f".format(accuracy)))
-    elif choice == 4:
-        number_of_zero = int(input("enter new zero_number: "))
-    elif choice == 5:
-        return "end"
+    elif choice == "4":
+        while True:
+            number_of_zero = input("enter new zero_number: ")
+            if number_of_zero.isnumeric():
+                print("This should be a number, try again")
+            else:
+                break
+    elif choice == "5":
+        quit()
     else:
         print("Wrong choice, try again.")
 
@@ -53,19 +62,18 @@ history = []
 accuracy = 0
 
 while True:
-    number1 = float(input("enter first number: "))
-    number2 = float(input("enter second number: "))
-    operator = input("enter operation to perform: ")
+    try:
+        number1 = input("enter first number: ")
+        number2 = input("enter second number: ")
+        operator = input("enter operation to perform: ")
+        result = calculate(float(number1), float(number2), operator)
 
-    result = calculate(number1, number2, operator)
+        if result is not None:
+            result = float(result)
+            print(number1, operator, number2, "=", format(result, ".{0}f".format(accuracy)))
 
-    if result != "error":
-        result = float(result)
-        print(number1, operator, number2, "=", format(result, ".{0}f".format(accuracy)))
-
-    end_result = end_menu(history, accuracy, result)
-
-    if end_result == "end":
-        break
-    else:
-        accuracy = int(end_result)
+        accuracy = int(end_menu(history, accuracy, result))
+    except ValueError:
+        print("Value should be a number, try again")
+    except ZeroDivisionError:
+        print("Number cannot be divided by zero, try again")
