@@ -1,4 +1,4 @@
-from lab2.action import Action
+from src.lab2.action import Action
 
 
 class Calculator(Action):
@@ -28,6 +28,9 @@ class Calculator(Action):
                 self.operator == "%")
 
     def calculate(self):
+        if type(self.number1) != float or type(self.number2) != float:
+            raise TypeError
+
         if self.operator == "+":
             self.result = self.number1 + self.number2
         elif self.operator == "-":
@@ -37,6 +40,8 @@ class Calculator(Action):
         elif self.operator == "/":
             if self.number2 != 0:
                 self.result = self.number1 / self.number2
+            else:
+                raise ZeroDivisionError
         elif self.operator == "^":
             self.result = pow(self.number1, self.number2)
         elif self.operator == "%":
