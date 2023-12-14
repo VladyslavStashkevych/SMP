@@ -1,8 +1,8 @@
 import sys
 
-from UI.MenuBuilder import *
-from UI.MenuItem import *
-from Core.ThreeDArtService import ThreeDArtService
+from src.UI.MenuBuilder import *
+from src.UI.MenuItem import *
+from src.Core.ThreeDArtService import ThreeDArtService
 
 
 gen = ThreeDArtService(5, 0, False)

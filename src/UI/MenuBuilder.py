@@ -1,4 +1,4 @@
-from src.lab5.UI.MenuItem import MenuItem
+from src.UI.MenuItem import MenuItem
 
 
 class MenuBuilder:

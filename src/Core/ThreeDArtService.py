@@ -1,5 +1,5 @@
 from src.lab5.Figures.Cube import Cube
-import src.lab5.Core.FileService as FileService
+import src.Core.FileService as FileService
 
 class ThreeDArtService:
     def __init__(self, height: int, color: int, direction: bool):
